@@ -10,7 +10,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 //importing required routes
-const userRoutes = require('./ApplicationRoutes/user');
+const userRoutes = require('./ApplicationRoutes/user'); 
 const transactionRoutes = require('./ApplicationRoutes/transaction');
 const registerappRoute = require('./observabilityRoutes/registerapp');
 const initializeTrackingRoute = require('./observabilityRoutes/initializeTracking');

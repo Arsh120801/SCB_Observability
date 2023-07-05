@@ -4,7 +4,6 @@ const { v4: uuidv4 } = require('uuid');
 const User = require('../dbCollections/user');
 const Device=require('../dbCollections/device');
 const Deviceinfo = require('../dbCollections/deviceinfo');
-const checkheader = require('../middlewares/checkheader');
 //current date and time
 const currentDateandTime=()=>{
     const dateObj = new Date();
@@ -23,7 +22,7 @@ const currentDateandTime=()=>{
 
 
 //signup api
-router.post('/signup',checkheader,async(req,res)=>{
+router.post('/signup',async(req,res)=>{
     const email = req.body.email;
     const name = req.body.name;
     const pass = req.body.password;
@@ -56,7 +55,7 @@ router.post('/signup',checkheader,async(req,res)=>{
 })
 
 //login api
-router.post('/login',checkheader,async(req,res)=>{
+router.post('/login',async(req,res)=>{
     
     const email = req.body.email;
     const pass = req.body.password;
