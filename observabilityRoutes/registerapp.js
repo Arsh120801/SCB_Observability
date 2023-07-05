@@ -34,43 +34,4 @@ router.post('/registerapp',async(req,res)=>{
     })
 })
 
-
-
-//Register App Old Method
-/*
-router.post('/registerapp',async(req,res)=>{
-    const appid = req.body.appid;
-    const uid = req.body.uid;
-    const platform = req.body.platform;
-    const packageid = appid+platform;
-    const appVersionNumber = req.body.appVersionNumber;
-
-    let appregistered = false;
-
-    Register.get().then(async(q)=>{
-        q.forEach(async(registerapp)=>{
-            if(registerapp.data().packageid===packageid && registerapp.data().uid===uid && registerapp.data().appVersionNumber===appVersionNumber){
-                appregistered=true;
-            }
-        })
-
-        const deviceFingerPrint = hashfunc(packageid+appVersionNumber+uid);
-
-        if(!appregistered){
-            await Register.doc(deviceFingerPrint).set({
-                "appid":appid,
-                "platform":platform,
-                "packageid":packageid,
-                "uid":uid,
-                "appVersionNumber":appVersionNumber,
-                "deviceFingerPrint" :deviceFingerPrint
-            })
-            res.send(`deviceFingerPrint: ${deviceFingerPrint}`)
-        }
-        else{
-            res.send(`deviceFingerPrint: ${deviceFingerPrint}`)
-        }
-    })
-})
-*/
 module.exports = router;

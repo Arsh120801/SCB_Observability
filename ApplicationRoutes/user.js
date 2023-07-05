@@ -3,6 +3,7 @@ const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const User = require('../dbCollections/user');
 const Device=require('../dbCollections/device');
+const Deviceinfo = require('../dbCollections/deviceinfo');
 const checkheader = require('../middlewares/checkheader');
 //current date and time
 const currentDateandTime=()=>{
@@ -29,9 +30,11 @@ router.post('/signup',checkheader,async(req,res)=>{
     const deviceFingerPrint = req.body.deviceFingerPrint;
     const userid = uuidv4();
 
-    if(deviceFingerPrint === null){
-        res.send("device not found!");
-        return;
+    const deviceExists = Deviceinfo.doc(deviceFingerPrint);
+    const snapshot = await deviceExists.get();
+    
+    if(snapshot.data()===undefined){
+        return res.send("device not found!");
     }
 
     await User.doc(email).set({
@@ -57,9 +60,11 @@ router.post('/login',checkheader,async(req,res)=>{
     const pass = req.body.password;
     const deviceFingerPrint = req.body.deviceFingerPrint;
 
-    if(deviceFingerPrint === null){
-        res.send("device not found!");
-        return;
+    const deviceExists = Deviceinfo.doc(deviceFingerPrint);
+    const snapshot = await deviceExists.get();
+
+    if(snapshot.data()===undefined){
+        return res.send("device not found!");
     }
 
     let comparepsd = false;
