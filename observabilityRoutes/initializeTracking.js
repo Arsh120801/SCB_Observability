@@ -38,7 +38,7 @@ router.post('/initializeTracking',async(req,res)=>{
                 "countryCode":countryCode,
                 "uid":uid
             });
-            res.send("app verified")
+            res.send(`app verified, deviceFingerPrint: ${deviceFingerPrint}`)
         }
         else{
             res.send("app not found");
