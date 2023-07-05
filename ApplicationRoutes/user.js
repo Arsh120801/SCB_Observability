@@ -37,20 +37,22 @@ router.post('/signup',checkheader,async(req,res)=>{
         return res.send("device not found!");
     }
 
-    await User.doc(email).set({
+    else{
+        await User.doc(email).set({
         "email": email,
         "name": name,
         "password":pass,
         "userid":userid
-    });
-    
-    Device.doc(deviceFingerPrint).collection('userids').doc().set({
-        "email":email,
-        "userid":userid,
-        "loginTime":currentDateandTime()
-    })
-    req.session.user={email,id:'scb'}
-    res.send(email);
+        });
+        
+        Device.doc(deviceFingerPrint).collection('userids').doc().set({
+            "email":email,
+            "userid":userid,
+            "loginTime":currentDateandTime()
+        })
+        req.session.user={email,id:'scb'}
+        res.send(email);
+    }
 })
 
 //login api
@@ -67,31 +69,33 @@ router.post('/login',checkheader,async(req,res)=>{
         return res.send("device not found!");
     }
 
-    let comparepsd = false;
-    User.get().then(async(q)=>{
-        q.forEach(async(user)=>{
-           if(user.id===email && user.data().password === pass){
-                comparepsd=true;
-           }
-        })
-        if(!comparepsd){
-            res.send("wrong id/password")
-        }
-        else{
-            let userid="";
-            await User.doc(email).get().then((user)=>{
-                userid = user.data().userid;
-            });            
-
-            Device.doc(deviceFingerPrint).collection('userids').doc().set({
-                "email":email,
-                "userid":userid,
-                "loginTime":currentDateandTime()
+    else{    
+        let comparepsd = false;
+        User.get().then(async(q)=>{
+            q.forEach(async(user)=>{
+            if(user.id===email && user.data().password === pass){
+                    comparepsd=true;
+            }
             })
-            req.session.user={email,id:'scb'}
-            res.send(`logged in ${userid} !`);
-        }
-    })
+            if(!comparepsd){
+                res.send("wrong id/password")
+            }
+            else{
+                let userid="";
+                await User.doc(email).get().then((user)=>{
+                    userid = user.data().userid;
+                });            
+
+                Device.doc(deviceFingerPrint).collection('userids').doc().set({
+                    "email":email,
+                    "userid":userid,
+                    "loginTime":currentDateandTime()
+                })
+                req.session.user={email,id:'scb'}
+                res.send(`logged in ${userid} !`);
+            }
+        })
+    }
 })
 
 //logout api
