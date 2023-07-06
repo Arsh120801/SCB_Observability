@@ -10,13 +10,20 @@ router.post('/initializeTracking',async(req,res)=>{
     const deviceName = req.body.deviceName;
     const uid = req.body.uid;
     const ostype = req.body.ostype;
-    const ram = bytesToGB(req.body.ram)+" GB";
-    const storage = bytesToGB(req.body.storage)+" GB";
+    let ram = req.body.ram;
+    if(ostype.substring(0,3)!=="iOS"){
+        ram = bytesToGB(req.body.ram)+" GB";
+    }
+    let storage = req.body.storage;
+    if(ostype.substring(0,3)!=="iOS"){
+        storage = bytesToGB(req.body.storage)+" GB";
+    }
+    
     const packageid = req.body.packageid;
     const batteryCap = req.body.batteryCap +" mAh";
     const countryCode = req.body.countryCode;
     const appVersionNumber = req.body.appVersionNumber;
-    
+
     var appfound = false;
     Register.get().then(async(q)=>{
         await q.forEach(async(application)=>{
