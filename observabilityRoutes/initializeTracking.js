@@ -7,21 +7,21 @@ const hashfunc = require('./functions/hashfunction');
 
 //initialization New Method
 router.post('/initializeTracking',async(req,res)=>{
-    const deviceName = req.body.deviceName;
+    const deviceName =( req.body.deviceName || "N/A");
     const uid = req.body.uid;
     const ostype = req.body.ostype;
-    let ram = req.body.ram;
-    if(ostype.substring(0,3)!=="iOS"){
+    let ram = (req.body.ram || "N/A");
+    if( ram!=="N/A" && ostype.substring(0,3)!=="iOS"){
         ram = bytesToGB(req.body.ram)+" GB";
     }
-    let storage = req.body.storage;
-    if(ostype.substring(0,3)!=="iOS"){
+    let storage =( req.body.storage || "N/A");
+    if( storage!=="N/A" && ostype.substring(0,3)!=="iOS"){
         storage = bytesToGB(req.body.storage)+" GB";
     }
     
     const packageid = req.body.packageid;
-    const batteryCap = req.body.batteryCap +" mAh";
-    const countryCode = req.body.countryCode;
+    const batteryCap = (req.body.batteryCap ? req.body.batteryCap +" mAh" : "N/A");
+    const countryCode = (req.body.countryCode || "N/A");
     const appVersionNumber = req.body.appVersionNumber;
 
     var appfound = false;
