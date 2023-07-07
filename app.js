@@ -58,6 +58,24 @@ app.use('/',apistatsRoute);
 //User journey related data
 app.use('/',savedataRoute);
 
+// Error Handling
+app.use((err, req, res, next) => {
+    console.error(err); // Log the error for debugging purposes
+  
+    // Determine the appropriate error response based on the error
+    let statusCode = 500; // Internal Server Error
+    let message = "Internal Server Error";
+  
+    // Customize the error response based on the specific error
+    if (err instanceof CustomAppError) {
+      statusCode = err.statusCode;
+      message = err.message;
+    }
+  
+    // Return the error response to the client
+    res.status(statusCode).json({ error: message });
+});
+
 app.listen(process.env.PORT || 3000,()=>{
     console.log("welcome to port 3000");
 })
