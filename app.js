@@ -1,4 +1,8 @@
 //Firebase setup
+
+/*APIKEY for firebase and other details of firebase which are required 
+for connecting the firebase with this code are imported from firebaseConfig.js*/
+
 const firebase = require('firebase');
 const firebaseConfig = require('./firebaseConfig');
 firebase.initializeApp(firebaseConfig);
@@ -10,6 +14,10 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 //importing required routes
+
+/*All api routes code is seperated in different different folders and files
+Application related routes are in ApplicationRoutes Folder and Observability related routes are in the observabilityRoutes folder*/
+
 const userRoutes = require('./ApplicationRoutes/user'); 
 const transactionRoutes = require('./ApplicationRoutes/transaction');
 const registerappRoute = require('./observabilityRoutes/registerapp');
@@ -18,6 +26,9 @@ const apistatsRoute = require('./observabilityRoutes/apistats');
 const savedataRoute = require('./observabilityRoutes/savedata');
 
 //sessions setup
+
+//This session will be used by the 'apistats' route as well as that route will fetch userid from this
+
 const sessionconfig={
     name:'session',
     secret:'scbmobileapp',

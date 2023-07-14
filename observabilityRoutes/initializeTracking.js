@@ -5,7 +5,11 @@ const Deviceinfo = require('../dbCollections/deviceinfo');
 const bytesToGB = require('./functions/bytesToGB');
 const hashfunc = require('./functions/hashfunction');
 
-//initialization New Method
+//initialization
+
+/*Deviceinfo is a firestore data collection which will store the device information
+The document Id for this device data in deviceinfo collection will be deviceFingerPrint*/
+
 router.post('/initializeTracking',async(req,res,next)=>{
     const deviceName =( req.body.deviceName || "N/A");
     const uid = req.body.uid;

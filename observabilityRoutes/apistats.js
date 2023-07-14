@@ -26,12 +26,19 @@ router.post('/apistats',requirelogin,async(req,res,next)=>{
         const NetworkOperator = (req.body.NetworkOperator || "N/A");
         const Context = (req.body.Context || "N/A");
         const Event = (req.body.Event || "N/A");
+
+        // if session is storing email id instead of user id
         const email = req.session.user.email;
         let userid="";
         await User.doc(email).get().then((user)=>{
             userid = user.data().userid;
         });
 
+        /* if session is storing user id then replace the code with the below
+        const userid = req.body.userid;
+        */
+
+        // Checking whether the deviceFingerPrint is already there in database or not.
         const deviceExists = Deviceinfo.doc(deviceFingerPrint);
         const snapshot = await deviceExists.get();
 

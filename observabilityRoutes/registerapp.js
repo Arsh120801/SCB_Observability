@@ -3,7 +3,10 @@ const router = express.Router();
 const hashfunc = require('./functions/hashfunction');
 const Register = require('../dbCollections/register');
 
-//Register App New Method
+//Register App
+
+//Register is the data collection in firestore
+
 router.post('/registerapp',async(req,res)=>{
     const appid = req.body.appid;
     const platform = req.body.platform;
