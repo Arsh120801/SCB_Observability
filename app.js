@@ -71,21 +71,22 @@ app.use('/',savedataRoute);
 
 // Error Handling
 app.use((err, req, res, next) => {
-    console.error(err); // Log the error for debugging purposes
-  
-    // Determine the appropriate error response based on the error
+    // Default error values
     let statusCode = 500; // Internal Server Error
     let message = "Internal Server Error";
   
-    // Customize the error response based on the specific error
-    if (err instanceof CustomAppError) {
+    // Check if the error has a specific status code and message
+    if (err.statusCode && err.message) {
       statusCode = err.statusCode;
       message = err.message;
     }
   
+    // Log the error for debugging purposes
+    console.error(err);
+  
     // Return the error response to the client
     res.status(statusCode).json({ error: message });
-});
+  });
 
 app.listen(process.env.PORT || 3000,()=>{
     console.log("welcome to port 3000");

@@ -10,6 +10,13 @@ const Deviceinfo = require('../dbCollections/deviceinfo');
 //API statastics
 router.post('/apistats',requirelogin,async(req,res,next)=>{
     try{
+
+        if (!req.body.packageid || !req.body.deviceFingerPrint || !req.body.apicalled) {
+            const error = new Error("Required field/s is/are missing.");
+            error.statusCode = 400;
+            throw error;
+          }
+
         const deviceFingerPrint = req.body.deviceFingerPrint;
         const ramUsed =((req.body.ramUsed) ? bytesToGB(req.body.ramUsed)+" GB":"N/A");
         const upspeed=(req.body.upspeed ? req.body.upspeed+ " Mb/Sec":"N/A");

@@ -31,6 +31,13 @@ router.post('/initializeTracking',async(req,res,next)=>{
     var appfound = false;
     Register.get().then(async(q)=>{
         try{
+            
+            if (!req.body.uid || !req.body.ostype || !req.body.packageid || !req.body.appVersionNumber) {
+                const error = new Error("Required field/s is/are missing.");
+                error.statusCode = 400;
+                throw error;
+            }
+
             await q.forEach(async(application)=>{
                 if(application.data().packageid===packageid && application.data().appVersionNumber===appVersionNumber){
                     appfound=true;
